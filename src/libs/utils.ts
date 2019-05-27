@@ -59,6 +59,24 @@ class Utils {
     return result
   }
 
+  filterDNSRecords (records: CloudflreDNSRecord[], name: string, type: string, content: string): CloudflreDNSRecord[] {
+    return records.filter((record) => {
+      if (name && record.name !== name) {
+        return false
+      }
+
+      if (type && record.type.toLowerCase() !== type.toLowerCase()) {
+        return false
+      }
+
+      if (content && record.content !== content) {
+        return false
+      }
+
+      return true
+    })
+  }
+
   compareDomains (a: string, b: string) {
     let reverseDomain = (domain: string) => {
       return (domain || '').split('.').reverse().join('.')

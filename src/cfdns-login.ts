@@ -11,7 +11,7 @@ let hander = async (email: string, key: string) => {
     await cloudflre.getZones()
     utils.getConfigInstance().save({ email, key })
   } catch (e) {
-    console.error('Invalid Email or Key')
+    console.error('Invalid Email or Key.')
   }
 }
 

@@ -18,14 +18,7 @@ export default class Cloudflre {
         per_page: 1000
       })
 
-      for (let item of response.result) {
-        result.push({
-          id: item.id,
-          name: item.name,
-          status: item.status,
-          paused: item.paused
-        })
-      }
+      result.push(...response.result.map(this.transformZone))
 
       if (response.result_info.page >= response.result_info.total_pages) {
         break
@@ -33,6 +26,11 @@ export default class Cloudflre {
     }
 
     return result
+  }
+
+  async addDNSRecord (zoneId: string, record: any) {
+    let result = await this.cloudflare.dnsRecords.add(zoneId, record)
+    return this.transformDNSRecord(result)
   }
 
   async getDNSRecords (zoneId: string): Promise<CloudflreDNSRecord[]> {
@@ -44,19 +42,7 @@ export default class Cloudflre {
         per_page: 1000
       })
 
-      for (let item of response.result) {
-        result.push({
-          id: item.id,
-          type: item.type,
-          name: item.name,
-          content: item.content,
-          ttl: item.ttl,
-          proxiable: item.proxiable,
-          proxied: item.proxied,
-          zoneId: item.zone_id,
-          zoneName: item.zone_name
-        })
-      }
+      result.push(...response.result.map(this.transformDNSRecord))
 
       if (response.result_info.page >= response.result_info.total_pages) {
         break
@@ -66,14 +52,51 @@ export default class Cloudflre {
     return result
   }
 
-  async getAllDNSRecords (): Promise<CloudflreDNSRecord[]> {
+  async getAllDNSRecords (filterName: string | null = null): Promise<CloudflreDNSRecord[]> {
     let result: CloudflreDNSRecord[] = []
     let zones = await this.getZones()
     for (let zone of zones) {
+      if (filterName && !filterName.endsWith(zone.name)) {
+        console.log(`skip ${zone.name}`)
+        continue
+      }
+
       let records = await this.getDNSRecords(zone.id)
       result.push(...records)
     }
 
     return result
+  }
+
+  async editDNSRecord (zoneId: string, id: string, record: any): Promise<CloudflreDNSRecord> {
+    let result = await this.cloudflare.dnsRecords.edit(zoneId, id, record)
+    return this.transformDNSRecord(result)
+  }
+
+  async delDNSRecord (zoneId: string, id: string): Promise<void> {
+    await this.cloudflare.dnsRecords.del(zoneId, id)
+  }
+
+  private transformZone (cfRawData: any): CloudflreZone {
+    return {
+      id: cfRawData.id,
+      name: cfRawData.name,
+      status: cfRawData.status,
+      paused: cfRawData.paused
+    }
+  }
+
+  private transformDNSRecord (cfRawData: any): CloudflreDNSRecord {
+    return {
+      id: cfRawData.id,
+      type: cfRawData.type,
+      name: cfRawData.name,
+      content: cfRawData.content,
+      ttl: cfRawData.ttl,
+      proxiable: cfRawData.proxiable,
+      proxied: cfRawData.proxied,
+      zoneId: cfRawData.zone_id,
+      zoneName: cfRawData.zone_name
+    }
   }
 }
