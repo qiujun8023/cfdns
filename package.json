@@ -1,0 +1,31 @@
+{
+  "name": "cfdns",
+  "version": "0.0.1",
+  "description": "A cloudflare dns manager cli",
+  "main": "dist/src/cfdns.js",
+  "scripts": {
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "build": "npm run clean && tsc -d",
+    "clean": "rimraf dist",
+    "tslint": "tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**'"
+  },
+  "author": "qiujun",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "cli-table": "^0.3.1",
+    "cloudflare": "^2.4.1",
+    "commander": "^2.20.0",
+    "lodash": "^4.17.11"
+  },
+  "devDependencies": {
+    "@types/cli-table": "^0.3.0",
+    "@types/lodash": "^4.14.132",
+    "nodemon": "^1.19.0",
+    "rimraf": "^2.6.3",
+    "ts-node": "^8.1.0",
+    "tslint": "^5.16.0",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.4.5"
+  }
+}
