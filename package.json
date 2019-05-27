@@ -1,7 +1,7 @@
 {
   "name": "cfdns",
   "version": "0.0.1",
-  "description": "A cloudflare dns manager cli",
+  "description": "A command line tool for managing Cloudflare DNS records",
   "main": "dist/src/cfdns.js",
   "scripts": {
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
