@@ -1,10 +1,17 @@
 {
   "name": "cfdns",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": "qiujun",
   "license": "MIT",
   "description": "A command line tool for managing Cloudflare DNS records",
-  "main": "dist/src/cfdns.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qious/cfdns"
+  },
+  "main": "./dist/src/cfdns.js",
+  "bin": {
+    "cfdns": "./dist/src/cfdns.js"
+  },
   "scripts": {
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "build": "npm run clean && tsc -d",
