@@ -1,6 +1,8 @@
 {
   "name": "cfdns",
   "version": "0.0.1",
+  "author": "qiujun",
+  "license": "MIT",
   "description": "A command line tool for managing Cloudflare DNS records",
   "main": "dist/src/cfdns.js",
   "scripts": {
@@ -9,8 +11,12 @@
     "clean": "rimraf dist",
     "tslint": "tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**'"
   },
-  "author": "qiujun",
-  "license": "MIT",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run tslint",
+      "post-merge": "npm i"
+    }
+  },
   "dependencies": {
     "chalk": "^2.4.2",
     "cli-table": "^0.3.1",
@@ -21,6 +27,7 @@
   "devDependencies": {
     "@types/cli-table": "^0.3.0",
     "@types/lodash": "^4.14.132",
+    "husky": "^2.3.0",
     "nodemon": "^1.19.0",
     "rimraf": "^2.6.3",
     "ts-node": "^8.1.0",

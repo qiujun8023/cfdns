@@ -12,13 +12,13 @@ let hander = async (domain: string | null = null) => {
   let groupedRecords = utils.groupDNSRecords(records)
   let groups = Object.keys(groupedRecords).sort(utils.compareDomains)
 
-  if (domain != null) {
+  if (domain !== null) {
     let suffix = _.trim(domain, '.')
     groups = groups.filter(group => group.endsWith(suffix))
   }
 
   for (let group of groups) {
-    console.log(' Domain: ' + chalk.green(group));
+    console.log(' Domain: ' + chalk.green(group))
     let table = new Table({
       head: ['Type', 'Name', 'Content', 'TTL', 'Proxiable', 'Proxied'],
       colWidths: [10, 10, 41, 5, 11, 9],

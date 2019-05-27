@@ -5,11 +5,11 @@ const CloudflreLib = require('cloudflare')
 export default class Cloudflre {
   private cloudflare: any
 
-  constructor(email: string, key: string) {
+  constructor (email: string, key: string) {
     this.cloudflare = new CloudflreLib({ email, key })
   }
 
-  async getZones(): Promise<CloudflreZone[]> {
+  async getZones (): Promise<CloudflreZone[]> {
     let result: CloudflreZone[] = []
 
     for (let page = 1; ; page++) {
@@ -35,7 +35,7 @@ export default class Cloudflre {
     return result
   }
 
-  async getDNSRecords(zoneId: string): Promise<CloudflreDNSRecord[]> {
+  async getDNSRecords (zoneId: string): Promise<CloudflreDNSRecord[]> {
     let result: CloudflreDNSRecord[] = []
 
     for (let page = 1; ; page++) {
@@ -66,7 +66,7 @@ export default class Cloudflre {
     return result
   }
 
-  async getAllDNSRecords(): Promise<CloudflreDNSRecord[]> {
+  async getAllDNSRecords (): Promise<CloudflreDNSRecord[]> {
     let result: CloudflreDNSRecord[] = []
     let zones = await this.getZones()
     for (let zone of zones) {

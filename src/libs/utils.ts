@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import Config from './config'
 import Cloudflre from './cloudflre'
-import { CloudflreDNSRecord, GroupCloudflreDNSRecord } from '../types';
+import { CloudflreDNSRecord, GroupCloudflreDNSRecord } from '../types'
 
 const CONFIG_PATH = process.env['HOME'] + '/.cfdns.dat'
 
@@ -9,14 +9,14 @@ class Utils {
   private config: Config | null = null
   private cloudflare: Cloudflre | null = null
 
-  getConfigInstance() {
+  getConfigInstance () {
     if (!this.config) {
       this.config = new Config(CONFIG_PATH)
     }
     return this.config
   }
 
-  getCloudflreInstance() {
+  getCloudflreInstance () {
     if (!this.cloudflare) {
       let config = this.getConfigInstance()
       if (!config.exists()) {
@@ -30,7 +30,7 @@ class Utils {
     return this.cloudflare
   }
 
-  groupDNSRecords(records: CloudflreDNSRecord[]): GroupCloudflreDNSRecord {
+  groupDNSRecords (records: CloudflreDNSRecord[]): GroupCloudflreDNSRecord {
     let result: GroupCloudflreDNSRecord = {}
 
     for (let record of records) {
@@ -59,7 +59,7 @@ class Utils {
     return result
   }
 
-  compareDomains(a: string, b: string) {
+  compareDomains (a: string, b: string) {
     let reverseDomain = (domain: string) => {
       return (domain || '').split('.').reverse().join('.')
     }
@@ -67,7 +67,7 @@ class Utils {
     return reverseDomain(a) > reverseDomain(b) ? 1 : -1
   }
 
-  getDomainPrefix(domain: string, group: string) {
+  getDomainPrefix (domain: string, group: string) {
     let index = domain.lastIndexOf(group)
     if (index === 0) {
       return '@'

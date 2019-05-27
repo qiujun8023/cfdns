@@ -2,22 +2,22 @@ import fs from 'fs'
 import { ConfigData } from '../types'
 
 export default class Config {
-  constructor(private filename: string) { }
+  constructor (private filename: string) { }
 
-  save(data: ConfigData): void {
+  save (data: ConfigData): void {
     fs.writeFileSync(this.filename, JSON.stringify(data))
   }
 
-  load(): ConfigData {
+  load (): ConfigData {
     let data = fs.readFileSync(this.filename, 'utf8')
     return JSON.parse(data)
   }
 
-  remove(): void {
+  remove (): void {
     fs.unlinkSync(this.filename)
   }
 
-  exists(): boolean {
+  exists (): boolean {
     return fs.existsSync(this.filename)
   }
 }
