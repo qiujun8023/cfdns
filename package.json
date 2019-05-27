@@ -8,7 +8,13 @@
     "type": "git",
     "url": "https://github.com/qious/cfdns"
   },
+  "files": [
+    "package.json",
+    "README.md",
+    "dist"
+  ],
   "main": "./dist/src/cfdns.js",
+  "types": "./dist/src/cfdns.d.ts",
   "bin": {
     "cfdns": "./dist/src/cfdns.js"
   },
@@ -16,7 +22,8 @@
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "build": "npm run clean && tsc -d",
     "clean": "rimraf dist",
-    "tslint": "tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**'"
+    "tslint": "tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**'",
+    "publish": "npm run tslint && npm run build && npm publish ."
   },
   "husky": {
     "hooks": {

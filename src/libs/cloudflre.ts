@@ -57,7 +57,6 @@ export default class Cloudflre {
     let zones = await this.getZones()
     for (let zone of zones) {
       if (filterName && !filterName.endsWith(zone.name)) {
-        console.log(`skip ${zone.name}`)
         continue
       }
 

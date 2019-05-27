@@ -3,7 +3,7 @@
 import program from 'commander'
 
 program
-  .version('0.0.1')
+  .version('1.0.0')
   .command('login <email> <key>', 'login Cloudflare with email and key')
   .command('logout', 'logout Cloudflare')
   .command('list [domain]', 'list all DNS records')
