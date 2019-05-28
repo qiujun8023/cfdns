@@ -14,7 +14,7 @@ let hander = async (domain: string | null = null) => {
 
   if (domain !== null) {
     let suffix = _.trim(domain, '.')
-    groups = groups.filter(group => group.endsWith(suffix))
+    groups = groups.filter(group => group === suffix || group.endsWith('.' + suffix))
   }
 
   for (let group of groups) {
