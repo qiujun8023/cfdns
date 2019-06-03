@@ -36,11 +36,13 @@
     "cli-table": "^0.3.1",
     "cloudflare": "^2.4.1",
     "commander": "^2.20.0",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.11",
+    "ms": "^2.1.1"
   },
   "devDependencies": {
     "@types/cli-table": "^0.3.0",
     "@types/lodash": "^4.14.132",
+    "@types/ms": "^0.7.30",
     "@types/node": "^12.0.2",
     "husky": "^2.3.0",
     "nodemon": "^1.19.0",

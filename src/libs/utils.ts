@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import ms from 'ms'
 import Config from './config'
 import Cloudflre from './cloudflre'
 import { CloudflreDNSRecord, GroupCloudflreDNSRecord } from '../types'
@@ -91,6 +92,16 @@ class Utils {
       return '@'
     }
     return domain.substring(0, index - 1)
+  }
+
+  parseTTL (ttl: string) {
+    if (!ttl) {
+      return ttl
+    } else if (!isNaN(Number(ttl))) {
+      return parseInt(ttl, 10)
+    }
+
+    return ms(ttl) / 1000
   }
 }
 

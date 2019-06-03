@@ -21,14 +21,14 @@ let hander = async (name: string, type: string, newContent: string, ctx: program
     type: record.type,
     name: record.name,
     content: newContent,
-    ttl: ctx.ttl === undefined ? ctx.ttl : record.ttl,
-    proxied: ctx.proxy === undefined ? ctx.proxy : record.proxied
+    ttl: ctx.ttl === undefined ? record.ttl : ctx.ttl,
+    proxied: ctx.proxy === undefined ? record.proxied : ctx.proxy
   })
 }
 
 program
   .arguments('<name> <type> <new-content>')
-  .option('--ttl [ttl]', 'special TTL value')
+  .option('--ttl [ttl]', 'special TTL value', utils.parseTTL)
   .option('--proxy', `enable Cloudflare's proxy`)
   .option('--old-content [old-content]', 'old DNS record content')
   .action(hander)

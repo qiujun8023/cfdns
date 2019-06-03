@@ -31,7 +31,7 @@ let hander = async (name: string, type: string, content: string, ctx: program.Co
 
 program
   .arguments('<name> <type> <content>')
-  .option('--ttl [ttl]', 'special TTL value', 1)
+  .option('--ttl [ttl]', 'special TTL value', utils.parseTTL, 1)
   .option('--proxy', `enable Cloudflare's proxy`)
   .action(hander)
   .parse(process.argv)
