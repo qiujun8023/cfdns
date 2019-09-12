@@ -1,23 +1,23 @@
-import fs from 'fs'
-import { ConfigData } from '../types'
+import fs from 'fs';
+import { IConfigData } from '../types';
 
 export default class Config {
-  constructor (private filename: string) { }
+  constructor(private filename: string) { }
 
-  save (data: ConfigData): void {
-    fs.writeFileSync(this.filename, JSON.stringify(data))
+  public save(data: IConfigData): void {
+    fs.writeFileSync(this.filename, JSON.stringify(data));
   }
 
-  load (): ConfigData {
-    let data = fs.readFileSync(this.filename, 'utf8')
-    return JSON.parse(data)
+  public load(): IConfigData {
+    const data = fs.readFileSync(this.filename, 'utf8');
+    return JSON.parse(data);
   }
 
-  remove (): void {
-    fs.unlinkSync(this.filename)
+  public remove(): void {
+    fs.unlinkSync(this.filename);
   }
 
-  exists (): boolean {
-    return fs.existsSync(this.filename)
+  public exists(): boolean {
+    return fs.existsSync(this.filename);
   }
 }

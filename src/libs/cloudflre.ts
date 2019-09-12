@@ -1,91 +1,91 @@
-import _ from 'lodash'
-import { CloudflreZone, CloudflreDNSRecord } from '../types'
-const CloudflreLib = require('cloudflare')
+import _ from 'lodash';
+import { ICloudflreDNSRecord, ICloudflreZone } from '../types';
+const CloudflreLib = require('cloudflare');
 
 export default class Cloudflre {
-  private cloudflare: any
+  private cloudflare: any;
 
-  constructor (email: string, key: string) {
-    this.cloudflare = new CloudflreLib({ email, key })
+  constructor(email: string, key: string) {
+    this.cloudflare = new CloudflreLib({ email, key });
   }
 
-  async getZones (): Promise<CloudflreZone[]> {
-    let result: CloudflreZone[] = []
+  public async getZones(): Promise<ICloudflreZone[]> {
+    const result: ICloudflreZone[] = [];
 
     for (let page = 1; ; page++) {
-      let response = await this.cloudflare.zones.browse({
+      const response = await this.cloudflare.zones.browse({
         page,
-        per_page: 1000
-      })
+        per_page: 1000,
+      });
 
-      result.push(...response.result.map(this.transformZone))
+      result.push(...response.result.map(this.transformZone));
 
       if (response.result_info.page >= response.result_info.total_pages) {
-        break
+        break;
       }
     }
 
-    return result
+    return result;
   }
 
-  async addDNSRecord (zoneId: string, record: any) {
-    let result = await this.cloudflare.dnsRecords.add(zoneId, record)
-    return this.transformDNSRecord(result)
+  public async addDNSRecord(zoneId: string, record: any) {
+    const result = await this.cloudflare.dnsRecords.add(zoneId, record);
+    return this.transformDNSRecord(result);
   }
 
-  async getDNSRecords (zoneId: string): Promise<CloudflreDNSRecord[]> {
-    let result: CloudflreDNSRecord[] = []
+  public async getDNSRecords(zoneId: string): Promise<ICloudflreDNSRecord[]> {
+    const result: ICloudflreDNSRecord[] = [];
 
     for (let page = 1; ; page++) {
-      let response = await this.cloudflare.dnsRecords.browse(zoneId, {
+      const response = await this.cloudflare.dnsRecords.browse(zoneId, {
         page,
-        per_page: 1000
-      })
+        per_page: 1000,
+      });
 
-      result.push(...response.result.map(this.transformDNSRecord))
+      result.push(...response.result.map(this.transformDNSRecord));
 
       if (response.result_info.page >= response.result_info.total_pages) {
-        break
+        break;
       }
     }
 
-    return result
+    return result;
   }
 
-  async getAllDNSRecords (filterName: string | null = null): Promise<CloudflreDNSRecord[]> {
-    let result: CloudflreDNSRecord[] = []
-    let zones = await this.getZones()
-    for (let zone of zones) {
+  public async getAllDNSRecords(filterName: string | null = null): Promise<ICloudflreDNSRecord[]> {
+    const result: ICloudflreDNSRecord[] = [];
+    const zones = await this.getZones();
+    for (const zone of zones) {
       if (filterName && !filterName.endsWith(zone.name)) {
-        continue
+        continue;
       }
 
-      let records = await this.getDNSRecords(zone.id)
-      result.push(...records)
+      const records = await this.getDNSRecords(zone.id);
+      result.push(...records);
     }
 
-    return result
+    return result;
   }
 
-  async editDNSRecord (zoneId: string, id: string, record: any): Promise<CloudflreDNSRecord> {
-    let result = await this.cloudflare.dnsRecords.edit(zoneId, id, record)
-    return this.transformDNSRecord(result)
+  public async editDNSRecord(zoneId: string, id: string, record: any): Promise<ICloudflreDNSRecord> {
+    const result = await this.cloudflare.dnsRecords.edit(zoneId, id, record);
+    return this.transformDNSRecord(result);
   }
 
-  async delDNSRecord (zoneId: string, id: string): Promise<void> {
-    await this.cloudflare.dnsRecords.del(zoneId, id)
+  public async delDNSRecord(zoneId: string, id: string): Promise<void> {
+    await this.cloudflare.dnsRecords.del(zoneId, id);
   }
 
-  private transformZone (cfRawData: any): CloudflreZone {
+  private transformZone(cfRawData: any): ICloudflreZone {
     return {
       id: cfRawData.id,
       name: cfRawData.name,
       status: cfRawData.status,
-      paused: cfRawData.paused
-    }
+      paused: cfRawData.paused,
+    };
   }
 
-  private transformDNSRecord (cfRawData: any): CloudflreDNSRecord {
+  private transformDNSRecord(cfRawData: any): ICloudflreDNSRecord {
     return {
       id: cfRawData.id,
       type: cfRawData.type,
@@ -95,7 +95,7 @@ export default class Cloudflre {
       proxiable: cfRawData.proxiable,
       proxied: cfRawData.proxied,
       zoneId: cfRawData.zone_id,
-      zoneName: cfRawData.zone_name
-    }
+      zoneName: cfRawData.zone_name,
+    };
   }
 }

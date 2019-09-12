@@ -1,32 +1,32 @@
 #!/usr/bin/env node
 
-import _ from 'lodash'
-import chalk from 'chalk'
-import Table from 'cli-table'
-import program from 'commander'
-import utils from './libs/utils'
+import chalk from 'chalk';
+import Table from 'cli-table';
+import program from 'commander';
+import _ from 'lodash';
+import utils from './libs/utils';
 
-let hander = async (domain: string | null = null) => {
-  let cloudflre = utils.getCloudflreInstance()
-  let records = await cloudflre.getAllDNSRecords(domain)
-  let groupedRecords = utils.groupDNSRecords(records)
-  let groups = Object.keys(groupedRecords).sort(utils.compareDomains)
+const hander = async (domain: string | null = null) => {
+  const cloudflre = utils.getCloudflreInstance();
+  const records = await cloudflre.getAllDNSRecords(domain);
+  const groupedRecords = utils.groupDNSRecords(records);
+  let groups = Object.keys(groupedRecords).sort(utils.compareDomains);
 
   if (domain !== null) {
-    let suffix = _.trim(domain, '.')
-    groups = groups.filter(group => group === suffix || group.endsWith('.' + suffix))
+    const suffix = _.trim(domain, '.');
+    groups = groups.filter((group) => group === suffix || group.endsWith('.' + suffix));
   }
 
-  for (let group of groups) {
-    console.log(' Domain: ' + chalk.green(group))
-    let table = new Table({
+  for (const group of groups) {
+    console.log(' Domain: ' + chalk.green(group));
+    const table = new Table({
       head: ['Type', 'Name', 'Content', 'TTL', 'Proxiable', 'Proxied'],
       colWidths: [10, 15, 41, 5, 11, 9],
       colAligns: ['middle', 'middle', 'middle', 'middle', 'middle', 'middle'],
       style: {
-        head: ['cyan']
-      }
-    })
+        head: ['cyan'],
+      },
+    });
 
     table.push(...groupedRecords[group]
       .sort((a, b) => utils.compareDomains(a.name, b.name))
@@ -37,15 +37,15 @@ let hander = async (domain: string | null = null) => {
           record.content,
           record.ttl,
           record.proxiable,
-          record.proxied
-        ]
-      }))
+          record.proxied,
+        ];
+      }));
 
-    console.log(table.toString())
+    console.log(table.toString());
   }
-}
+};
 
 program
   .arguments('[domain]')
   .action(hander)
-  .parse(process.argv)
+  .parse(process.argv);
