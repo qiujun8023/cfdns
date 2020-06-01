@@ -21,7 +21,7 @@ const hander = async (domain: string | null = null) => {
     console.log(' Domain: ' + chalk.green(group));
     const table = new Table({
       head: ['Type', 'Name', 'Content', 'TTL', 'Proxiable', 'Proxied'],
-      colWidths: [10, 15, 41, 5, 11, 9],
+      colWidths: [10, 21, 41, 5, 11, 9],
       colAligns: ['middle', 'middle', 'middle', 'middle', 'middle', 'middle'],
       style: {
         head: ['cyan'],
